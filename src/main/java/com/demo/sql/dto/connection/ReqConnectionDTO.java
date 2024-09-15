@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class ReqConnectionDTO {
-    private String dbType;
+    private int dbType;
     private String dbIp;
-    private String dbPort;
+    private int dbPort;
     private String dbUserId;
     private String dbUserPw;
     private String dbName;

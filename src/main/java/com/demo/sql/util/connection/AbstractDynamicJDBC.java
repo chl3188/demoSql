@@ -13,9 +13,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 
@@ -23,7 +21,7 @@ import static com.demo.sql.util.connection.ConstDbType.DB_TYPE_MYSQL;
 
 public abstract class AbstractDynamicJDBC {
 
-    protected final static Map<String, String> JDBC_DRIVER_MAP = new ConcurrentHashMap<>();
+    protected final static Set<String> JDBC_DRIVER_MAP = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
 
     protected final Method methodConnect;
     protected final Object driver;
@@ -33,8 +31,8 @@ public abstract class AbstractDynamicJDBC {
     protected AbstractDynamicJDBC() throws IOException, ReflectiveOperationException{
         Class<?> proto = null;
 
-        if(!JDBC_DRIVER_MAP.containsKey(jdbcPath())) {
-            JDBC_DRIVER_MAP.put(jdbcPath(), jdbcPath());
+        if(!JDBC_DRIVER_MAP.contains(jdbcPath())) {
+            JDBC_DRIVER_MAP.add(jdbcPath());
             URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { new ClassPathResource(jdbcPath()).getURL() });
             proto = classLoader.loadClass(driverClsName());
         } else {

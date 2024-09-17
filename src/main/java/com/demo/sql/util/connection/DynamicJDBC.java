@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.util.Properties;
 
 import static com.demo.sql.util.connection.ConstDbType.DB_TYPE_MYSQL;
+import static com.demo.sql.util.connection.ConstDbType.DB_TYPE_ORACLE;
 
 public class DynamicJDBC {
 
@@ -20,7 +21,10 @@ public class DynamicJDBC {
             props.setProperty("password", connectionDTO.getDbUserPw());
 
             switch(connectionDTO.getDbType()) {
-                case DB_TYPE_MYSQL : jdbcUrl = String.format("jdbc:mysql://%s:%d/%s", connectionDTO.getDbIp(), connectionDTO.getDbPort(), connectionDTO.getDbName()); break;
+                case DB_TYPE_ORACLE: jdbcUrl = String.format("jdbc:oracle:thin:@//%s:%d/%s", connectionDTO.getDbIp(), connectionDTO.getDbPort(), connectionDTO.getDbName());
+                    break;
+                case DB_TYPE_MYSQL : jdbcUrl = String.format("jdbc:mysql://%s:%d/%s", connectionDTO.getDbIp(), connectionDTO.getDbPort(), connectionDTO.getDbName());
+                    break;
             }
 
             return dynamicJDBC.connect(jdbcUrl, props);

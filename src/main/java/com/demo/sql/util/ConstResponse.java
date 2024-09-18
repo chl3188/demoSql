@@ -12,4 +12,6 @@ public class ConstResponse {
     public static final String RES_FAIL_INVALID_PARAM_MSG = "Invalid Parameter";
     public static final int RES_FAIL_CREATE_CONNECTION_CODE = 2000;
     public static final String RES_FAIL_CREATE_CONNECTION_MSG = "Failed Create Connection";
+    public static final int RES_FAIL_CONNECTION_INVALID_CODE = 2001;
+    public static final String RES_FAIL_CONNECTION_INVALID_MSG = "Invalid Connection";
 }

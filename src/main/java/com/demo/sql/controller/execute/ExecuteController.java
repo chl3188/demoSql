@@ -7,9 +7,11 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/v1/execute")
+@RestController
+@RequestMapping("/v1/execute")
 public class ExecuteController {
 
     @Resource

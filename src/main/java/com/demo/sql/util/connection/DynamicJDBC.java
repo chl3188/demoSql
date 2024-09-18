@@ -1,7 +1,11 @@
 package com.demo.sql.util.connection;
 
+import com.demo.sql.config.exception.CustomConnectionException;
 import com.demo.sql.dto.connection.ReqConnectionDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.Properties;
 
@@ -10,7 +14,7 @@ import static com.demo.sql.util.connection.ConstDbType.DB_TYPE_ORACLE;
 
 public class DynamicJDBC {
 
-    public static Connection getConnection(ReqConnectionDTO connectionDTO) {
+    public static Connection createConnection(ReqConnectionDTO connectionDTO) {
         String jdbcUrl = "";
 
         try {
@@ -28,7 +32,8 @@ public class DynamicJDBC {
             }
 
             return dynamicJDBC.connect(jdbcUrl, props);
-
+        } catch (CustomConnectionException ce) {
+            throw new CustomConnectionException(ce.getMessage(), ce.getCause());
         } catch (Exception e) {
             e.printStackTrace();
         }

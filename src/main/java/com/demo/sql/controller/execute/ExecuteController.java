@@ -4,10 +4,12 @@ import com.demo.sql.dto.execute.ReqExecuteSqlDTO;
 import com.demo.sql.dto.common.ResponseBase;
 import com.demo.sql.service.ExecuteService;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/v1/execute/")
+@RestController("/v1/execute")
 public class ExecuteController {
 
     @Resource
@@ -17,7 +19,7 @@ public class ExecuteController {
     *  SQL 실행 API
     */
     @PostMapping("/sql")
-    public ResponseBase execute(ReqExecuteSqlDTO requestExecuteSqlDTO) {
+    public ResponseBase execute(@Valid @RequestBody ReqExecuteSqlDTO requestExecuteSqlDTO) {
         return executeService.executeSQL(requestExecuteSqlDTO);
     }
 }

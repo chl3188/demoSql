@@ -1,5 +1,6 @@
 package com.demo.sql.util.connection;
 
+import com.demo.sql.config.exception.CustomConnectionException;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import static com.demo.sql.util.connection.ConstDbType.DB_TYPE_ORACLE;
 public abstract class AbstractDynamicJDBC {
 
     protected final static Set<String> JDBC_DRIVER_MAP = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
-
+    private static URLClassLoader classLoader;
     protected final Method methodConnect;
     protected final Object driver;
     protected abstract String driverClsName();
@@ -27,10 +28,10 @@ public abstract class AbstractDynamicJDBC {
 
         if(!JDBC_DRIVER_MAP.contains(jdbcPath())) {
             JDBC_DRIVER_MAP.add(jdbcPath());
-            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { new ClassPathResource(jdbcPath()).getURL() });
+            classLoader = URLClassLoader.newInstance(new URL[] { new ClassPathResource(jdbcPath()).getURL() });
             proto = classLoader.loadClass(driverClsName());
         } else {
-            proto = Class.forName(driverClsName());
+            proto = classLoader.loadClass(driverClsName());
         }
 
         driver = proto.getDeclaredConstructor().newInstance();
@@ -50,9 +51,8 @@ public abstract class AbstractDynamicJDBC {
         try {
             return (Connection) methodConnect.invoke(driver, jdbcUrl, properties);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CustomConnectionException(e.getMessage(), e.getCause());
         }
-        return null;
     }
 
     static class OracleDynamicJDBC extends AbstractDynamicJDBC {

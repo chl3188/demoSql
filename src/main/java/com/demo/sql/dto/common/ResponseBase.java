@@ -10,5 +10,8 @@ public class ResponseBase {
     private String msg;
     private Object data;
 
-
+    public ResponseBase(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
 }

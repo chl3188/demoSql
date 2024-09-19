@@ -9,12 +9,18 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Set;
 
 import static com.demo.sql.util.ConstResponse.*;
 import static com.demo.sql.util.connection.ConnectionUtils.genUUID;
 
 @Service
 public class ConnectionService {
+
+    public ResponseBase getConnectionKeys() {
+        Set<String> keys = ConnectionUtils.getAllKeys();
+        return new ResponseBase(RES_OK_CODE, RES_OK_MSG, keys);
+    }
 
     public ResponseBase createConnection(ReqConnectionDTO connectionDTO) {
         String key = genUUID();

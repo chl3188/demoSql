@@ -14,6 +14,11 @@ public class ConnectionController {
     @Resource
     ConnectionService connectionService;
 
+    @GetMapping("/")
+    public ResponseBase getConnection() {
+        return connectionService.getConnectionKeys();
+    }
+
     @PostMapping("/")
     public ResponseBase createConnection(@Valid @RequestBody ReqConnectionDTO connectionDTO) {
         return connectionService.createConnection(connectionDTO);

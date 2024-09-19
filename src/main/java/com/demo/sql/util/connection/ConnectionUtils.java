@@ -5,6 +5,7 @@ import com.demo.sql.dto.connection.ReqConnectionDTO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +15,10 @@ public class ConnectionUtils {
 
     public static Connection getConnection(String key) {
         return CONNECTION_POOL.get(key);
+    }
+
+    public static Set<String> getAllKeys() {
+        return CONNECTION_POOL.keySet();
     }
 
     public static void setConnection(String key, Connection conn) {

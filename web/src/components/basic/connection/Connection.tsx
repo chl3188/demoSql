@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { setConnectionKey } from "../../../stores/slice/connectionStore";
@@ -16,6 +17,7 @@ export interface IDbTypeOptions {
 }
 
 const Connection: React.FC<Props> = ({}) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [connectionInfo, setConnectionInfo] = useState<IReqConnection>({
     dbType: 2,
@@ -23,6 +25,7 @@ const Connection: React.FC<Props> = ({}) => {
     dbPort: "3306",
     dbUserId: "root",
     dbUserPw: "wnfjdwnfjd",
+    dbSid: "",
     dbName: "test",
   });
 
@@ -56,6 +59,7 @@ const Connection: React.FC<Props> = ({}) => {
     const result = await APIPostConnection(connectionInfo);
     if (result.code == 200) {
       dispatch(setConnectionKey(result.data));
+      navigate("/");
     } else {
       alert(result.message);
     }
@@ -118,6 +122,16 @@ const Connection: React.FC<Props> = ({}) => {
               />
             </Col>
           </Row>
+          {connectionInfo.dbType == 1 ? <Row>
+            <Col width={100}>
+              <CommonInput
+                label={"SID"}
+                name={"dbSid"}
+                value={connectionInfo.dbSid}
+                onChange={handleChange}
+              />
+            </Col>
+          </Row> : <></>}
           <Row>
             <Col width={100}>
               <CommonInput

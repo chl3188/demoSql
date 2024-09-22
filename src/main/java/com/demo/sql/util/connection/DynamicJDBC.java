@@ -25,7 +25,7 @@ public class DynamicJDBC {
             props.setProperty("password", connectionDTO.getDbUserPw());
 
             switch(connectionDTO.getDbType()) {
-                case DB_TYPE_ORACLE: jdbcUrl = String.format("jdbc:oracle:thin:@//%s:%d/%s", connectionDTO.getDbIp(), connectionDTO.getDbPort(), connectionDTO.getDbName());
+                case DB_TYPE_ORACLE: jdbcUrl = String.format("jdbc:oracle:thin:@%s:%d:%s", connectionDTO.getDbIp(), connectionDTO.getDbPort(), connectionDTO.getDbSid(), connectionDTO.getDbName());
                     break;
                 case DB_TYPE_MYSQL : jdbcUrl = String.format("jdbc:mysql://%s:%d/%s", connectionDTO.getDbIp(), connectionDTO.getDbPort(), connectionDTO.getDbName());
                     break;

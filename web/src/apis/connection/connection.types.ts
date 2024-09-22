@@ -4,5 +4,6 @@ export interface IReqConnection {
   dbPort: string;
   dbUserId: string;
   dbUserPw: string;
+  dbSid: string;
   dbName: string;
 }

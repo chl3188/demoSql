@@ -14,5 +14,7 @@ public class ReqConnectionDTO {
     @NotNull(message = "dbUserPw cannot be null")
     private String dbUserPw;
     @NotNull(message = "dbName cannot be null")
+    private String dbSid;
+    @NotNull(message = "dbName cannot be null")
     private String dbName;
 }

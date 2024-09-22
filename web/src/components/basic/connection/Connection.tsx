@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { setConnectionKey } from "../../../stores/slice/connectionStore";
+import { setConnection } from "../../../stores/slice/connectionStore";
 import { APIPostConnection } from "../../../apis/connection/connection";
-import { IReqConnection } from "../../../apis/connection/connection.types";
+import { IReqConnection, IResConnection } from "../../../apis/connection/connection.types";
 import CommonInput from "../common/input/CommonInput";
 import CommonCombo from "../common/combo/CommonCombo";
 import CommonSubmitButton from "../common/button/CommonSubmitButton";
@@ -19,10 +19,11 @@ export interface IDbTypeOptions {
 const Connection: React.FC<Props> = ({}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [connectionInfo, setConnectionInfo] = useState<IReqConnection>({
     dbType: 2,
     dbIp: "127.0.0.1",
-    dbPort: "3306",
+    dbPort: "3307",
     dbUserId: "root",
     dbUserPw: "wnfjdwnfjd",
     dbSid: "",
@@ -58,7 +59,7 @@ const Connection: React.FC<Props> = ({}) => {
 
     const result = await APIPostConnection(connectionInfo);
     if (result.code == 200) {
-      dispatch(setConnectionKey(result.data));
+      dispatch(setConnection(result.data));
       navigate("/");
     } else {
       alert(result.message);

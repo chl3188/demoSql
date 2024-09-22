@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../index";
+import { IResConnection } from "../../apis/connection/connection.types";
 
 interface HomeStoreProps {
   loading: boolean;
-  connectionKey: string | null;
+  connectionInfo: IResConnection | null;
 }
 
 const initialState: HomeStoreProps = {
   loading: false,
-  connectionKey: null,
+  connectionInfo: null,
 };
 
 export const ConnectionStoreSlice = createSlice({
@@ -18,17 +19,17 @@ export const ConnectionStoreSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    setConnectionKey: (state, action: PayloadAction<string>) => {
-      state.connectionKey = action.payload;
+    setConnection: (state, action: PayloadAction<IResConnection>) => {
+      state.connectionInfo = action.payload;
     },
   },
 });
 
-export const { setLoading, setConnectionKey } = ConnectionStoreSlice.actions;
+export const { setLoading, setConnection } = ConnectionStoreSlice.actions;
 
 export const connectionLoading = (state: RootState) =>
   state.connectionStore.loading;
-export const connectionKey = (state: RootState) =>
-  state.connectionStore.connectionKey;
+export const connectionInfo = (state: RootState) =>
+  state.connectionStore.connectionInfo;
 
 export default ConnectionStoreSlice.reducer;

@@ -7,3 +7,9 @@ export interface IReqConnection {
   dbSid: string;
   dbName: string;
 }
+
+export interface IResConnection {
+  dbType: number;
+  connectionKey: string;
+  shortJdbcUrl: string;
+}

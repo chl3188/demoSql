@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setConnectionKey } from "../../../stores/slice/connectionStore";
+import { setConnection } from "../../../stores/slice/connectionStore";
 import { APIGetConnection } from "../../../apis/connection/connection";
 import AppContent from "./AppContent";
 
@@ -14,7 +14,7 @@ const DefaultLayout: React.FC = () => {
 
     if (fetchData.data.length > 0) {
       navigate("/", { replace: true });
-      dispatch(setConnectionKey(fetchData.data[0]));
+      dispatch(setConnection(fetchData.data[0]));
     } else {
       navigate("/connection", { replace: true });
     }

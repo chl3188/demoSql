@@ -4,17 +4,31 @@ import {
   ExecuteSQLType,
   IResExecuteSQL,
 } from "../../../apis/execute/execute.types";
+import { IResConnection } from "../../../apis/connection/connection.types";
 
 interface Props {
+  connInfo: IResConnection | null
   status: IResExecuteSQL | undefined;
 }
 
-const Footer: React.FC<Props> = ({ status }) => {
+const Footer: React.FC<Props> = ({ connInfo, status }) => {
+
+  const convertDbType = (dbType:Number) =>{
+    if(dbType == 1) {
+      return "oracle"
+    } else if(dbType == 2) {
+      return "mysql"
+    }
+  }
+
   return (
     <FooterContainer>
       <LeftSection>
-        <JdbcText>localhost:3306/test</JdbcText>
-        <DbText>mysql</DbText>
+        {connInfo && <>
+            <JdbcText>{connInfo!.shortJdbcUrl}</JdbcText>
+            <DbText>{convertDbType(connInfo!.dbType)}</DbText>
+          </>
+        }
       </LeftSection>
       <RightSection>
         {status ? (

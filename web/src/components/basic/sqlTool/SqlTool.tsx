@@ -8,7 +8,7 @@ import {
   IReqExecuteSQL,
   IResExecuteSQL,
 } from "../../../apis/execute/execute.types";
-import { connectionKey } from "../../../stores/slice/connectionStore";
+import { connectionInfo } from "../../../stores/slice/connectionStore";
 import { APIPostExecuteSQL } from "../../../apis/execute/execute";
 import ResultTable from "./ResultTable";
 import StatusBar from "./StatusBar";
@@ -16,7 +16,7 @@ import StatusBar from "./StatusBar";
 interface Props {}
 
 const SqlTool: React.FC<Props> = ({}) => {
-  const connKey = useSelector(connectionKey);
+  const connInfo = useSelector(connectionInfo);
   const [executeSQL, setExecuteSQL] = useState<IReqExecuteSQL>({
     connectionKey: "",
     sql: "select * from test.luji;",
@@ -24,13 +24,14 @@ const SqlTool: React.FC<Props> = ({}) => {
   const [resultSet, setResultSet] = useState<IResExecuteSQL>();
 
   useEffect(() => {
-    if (connKey) {
+    if (connInfo) {
+      console.log('connInfo', connInfo)
       setExecuteSQL((prevData) => ({
         ...prevData,
-        connectionKey: connKey!,
+        connectionKey: connInfo.connectionKey!,
       }));
     }
-  }, [connKey]);
+  }, [connInfo]);
 
   const handleChangeSql = (value: string | undefined) => {
     if (value) {
@@ -42,15 +43,18 @@ const SqlTool: React.FC<Props> = ({}) => {
   };
 
   const handleClickRun = async () => {
-    if (connKey == null && executeSQL.sql == "") {
+    if (connInfo == null && executeSQL.sql == "") {
       alert("실행할 SQL이 없습니다.");
       return;
     } else {
       setExecuteSQL((prevData) => ({
         ...prevData,
-        connectionKey: connKey!,
+        connectionKey: connInfo!.connectionKey!,
       }));
     }
+
+    console.log('executeSQL', connInfo)
+    console.log('executeSQL', executeSQL)
 
     const result = await APIPostExecuteSQL(executeSQL);
     if (result.code == 200) {
@@ -74,7 +78,7 @@ const SqlTool: React.FC<Props> = ({}) => {
       </Content>
 
       <StatusLayout>
-        <StatusBar status={resultSet} />
+        <StatusBar connInfo={connInfo} status={resultSet} />
       </StatusLayout>
     </SqlToolContainer>
   );

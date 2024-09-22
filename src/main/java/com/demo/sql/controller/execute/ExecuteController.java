@@ -2,7 +2,7 @@ package com.demo.sql.controller.execute;
 
 import com.demo.sql.dto.execute.ReqExecuteSqlDTO;
 import com.demo.sql.dto.common.ResponseBase;
-import com.demo.sql.service.ExecuteService;
+import com.demo.sql.service.execute.ExecuteService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;

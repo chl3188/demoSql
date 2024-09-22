@@ -1,40 +1,40 @@
 package com.demo.sql.util.connection;
 
-import com.demo.sql.dto.connection.ReqConnectionDTO;
+import com.demo.sql.dto.connection.ResConnectionDTO;
 
-import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionUtils {
-
-    private final static Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap<>();
-
-    public static Connection getConnection(String key) {
-        return CONNECTION_POOL.get(key);
-    }
-
-    public static Set<String> getAllKeys() {
-        return CONNECTION_POOL.keySet();
-    }
-
-    public static void setConnection(String key, Connection conn) {
-        CONNECTION_POOL.put(key, conn);
-    }
-
-    public static void removeConnection(String key) throws SQLException {
-        Connection conn = CONNECTION_POOL.get(key);
-        conn.close();
-        CONNECTION_POOL.remove(key);
-    }
 
     public static String genUUID() {
         String uuid = UUID.randomUUID().toString();
         uuid = uuid.replaceAll("-", "");
         uuid = uuid.substring(0, 8);
         return uuid;
+    }
+
+    public static ResConnectionDTO makeConnInfo (DatabaseMetaData meta, String key) throws SQLException {
+        int dbType = 0;
+        String shortUrl = "";
+        String dbProductName = meta.getDatabaseProductName();
+
+        if (dbProductName.toLowerCase().contains("oracle")) {
+            String[] parts = meta.getURL().split("@")[1].split(":");
+            shortUrl = parts[0] + "/" + parts[1];
+            dbType = 1;
+        } else if (dbProductName.toLowerCase().contains("mysql")) {
+            String[] parts = meta.getURL().split("://")[1].split("/");
+            String hostAndPort = parts[0];
+            shortUrl = hostAndPort.split(":")[0] + "/" + hostAndPort.split(":")[1];
+            dbType = 2;
+        }
+
+        return ResConnectionDTO.builder()
+                .dbType(dbType)
+                .connectionKey(key)
+                .shortJdbcUrl(shortUrl)
+                .build();
     }
 }

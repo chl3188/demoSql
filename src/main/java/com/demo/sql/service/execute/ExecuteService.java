@@ -1,8 +1,8 @@
-package com.demo.sql.service;
+package com.demo.sql.service.execute;
 
 import com.demo.sql.dto.common.ResponseBase;
 import com.demo.sql.dto.execute.ResExecuteSqlDTO;
-import com.demo.sql.util.connection.ConnectionUtils;
+import com.demo.sql.util.connection.ConnectionPool;
 import com.demo.sql.util.parser.SqlParser;
 import com.demo.sql.util.parser.SqlType;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class ExecuteService {
 
     public ResponseBase executeSQL(ReqExecuteSqlDTO executeSqlDTO) {
         try{
-            Connection conn = ConnectionUtils.getConnection(executeSqlDTO.getConnectionKey());
+            Connection conn = ConnectionPool.getConnection(executeSqlDTO.getConnectionKey());
             ResExecuteSqlDTO result = new ResExecuteSqlDTO();
 
             if(conn == null) {

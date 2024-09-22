@@ -19,7 +19,7 @@ export const ConnectionStoreSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    setConnection: (state, action: PayloadAction<IResConnection>) => {
+    setConnection: (state, action: PayloadAction<IResConnection | null>) => {
       state.connectionInfo = action.payload;
     },
   },

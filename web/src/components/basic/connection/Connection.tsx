@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { setConnection } from "../../../stores/slice/connectionStore";
 import { APIPostConnection } from "../../../apis/connection/connection";
-import { IReqConnection, IResConnection } from "../../../apis/connection/connection.types";
+import { IReqConnection } from "../../../apis/connection/connection.types";
 import CommonInput from "../common/input/CommonInput";
 import CommonCombo from "../common/combo/CommonCombo";
 import CommonSubmitButton from "../common/button/CommonSubmitButton";
@@ -123,16 +123,20 @@ const Connection: React.FC<Props> = ({}) => {
               />
             </Col>
           </Row>
-          {connectionInfo.dbType == 1 ? <Row>
-            <Col width={100}>
-              <CommonInput
-                label={"SID"}
-                name={"dbSid"}
-                value={connectionInfo.dbSid}
-                onChange={handleChange}
-              />
-            </Col>
-          </Row> : <></>}
+          {connectionInfo.dbType == 1 ? (
+            <Row>
+              <Col width={100}>
+                <CommonInput
+                  label={"SID"}
+                  name={"dbSid"}
+                  value={connectionInfo.dbSid}
+                  onChange={handleChange}
+                />
+              </Col>
+            </Row>
+          ) : (
+            <></>
+          )}
           <Row>
             <Col width={100}>
               <CommonInput

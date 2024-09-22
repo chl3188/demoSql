@@ -7,28 +7,30 @@ import {
 import { IResConnection } from "../../../apis/connection/connection.types";
 
 interface Props {
-  connInfo: IResConnection | null
+  connInfo: IResConnection | null;
   status: IResExecuteSQL | undefined;
+  onClickDisConnect: () => void;
 }
 
-const Footer: React.FC<Props> = ({ connInfo, status }) => {
-
-  const convertDbType = (dbType:Number) =>{
-    if(dbType == 1) {
-      return "oracle"
-    } else if(dbType == 2) {
-      return "mysql"
+const Footer: React.FC<Props> = ({ connInfo, status, onClickDisConnect }) => {
+  const convertDbType = (dbType: Number) => {
+    if (dbType == 1) {
+      return "oracle";
+    } else if (dbType == 2) {
+      return "mysql";
     }
-  }
+  };
 
   return (
     <FooterContainer>
       <LeftSection>
-        {connInfo && <>
+        {connInfo && (
+          <>
             <JdbcText>{connInfo!.shortJdbcUrl}</JdbcText>
+            <DisConnect onClick={onClickDisConnect}>disconnect</DisConnect>
             <DbText>{convertDbType(connInfo!.dbType)}</DbText>
           </>
-        }
+        )}
       </LeftSection>
       <RightSection>
         {status ? (
@@ -84,6 +86,16 @@ const DbText = styled.p`
   font-size: 12px;
   color: #000000;
   text-align: center;
+`;
+
+const DisConnect = styled.p`
+  padding-right: 4px;
+  margin: 0;
+  color: red;
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
 `;
 
 const RightSection = styled.div`

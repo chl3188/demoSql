@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import EditorTab from "./EditorTab";
 import EditorCommand from "./EditorCommand";
@@ -8,14 +9,20 @@ import {
   IReqExecuteSQL,
   IResExecuteSQL,
 } from "../../../apis/execute/execute.types";
-import { connectionInfo } from "../../../stores/slice/connectionStore";
+import {
+  connectionInfo,
+  setConnection,
+} from "../../../stores/slice/connectionStore";
 import { APIPostExecuteSQL } from "../../../apis/execute/execute";
 import ResultTable from "./ResultTable";
 import StatusBar from "./StatusBar";
+import { APIDeleteConnection } from "../../../apis/connection/connection";
 
 interface Props {}
 
 const SqlTool: React.FC<Props> = ({}) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const connInfo = useSelector(connectionInfo);
   const [executeSQL, setExecuteSQL] = useState<IReqExecuteSQL>({
     connectionKey: "",
@@ -25,7 +32,7 @@ const SqlTool: React.FC<Props> = ({}) => {
 
   useEffect(() => {
     if (connInfo) {
-      console.log('connInfo', connInfo)
+      console.log("connInfo", connInfo);
       setExecuteSQL((prevData) => ({
         ...prevData,
         connectionKey: connInfo.connectionKey!,
@@ -53,12 +60,23 @@ const SqlTool: React.FC<Props> = ({}) => {
       }));
     }
 
-    console.log('executeSQL', connInfo)
-    console.log('executeSQL', executeSQL)
-
     const result = await APIPostExecuteSQL(executeSQL);
     if (result.code == 200) {
       setResultSet(result.data);
+    } else {
+      alert(result.message);
+    }
+  };
+
+  const handleClickDisconnect = async () => {
+    if (!connInfo) {
+      return;
+    }
+
+    const result = await APIDeleteConnection(connInfo.connectionKey);
+    if (result.code == 200) {
+      dispatch(setConnection(null));
+      navigate("/connection");
     } else {
       alert(result.message);
     }
@@ -78,7 +96,11 @@ const SqlTool: React.FC<Props> = ({}) => {
       </Content>
 
       <StatusLayout>
-        <StatusBar connInfo={connInfo} status={resultSet} />
+        <StatusBar
+          connInfo={connInfo}
+          status={resultSet}
+          onClickDisConnect={handleClickDisconnect}
+        />
       </StatusLayout>
     </SqlToolContainer>
   );

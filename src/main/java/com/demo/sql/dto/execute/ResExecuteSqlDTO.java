@@ -9,6 +9,7 @@ import java.util.Map;
 @Data
 public class ResExecuteSqlDTO {
     private String type;
+    private List<Map<String, String>> columnList;
     private List<Map<String, String>> resultList;
     private int affectedRows;
 }

@@ -14,6 +14,7 @@ export interface IResExecuteSQLResult {
 
 export interface IResExecuteSQL {
   type: string;
+  columnList: IResExecuteSQLResult[];
   resultList: IResExecuteSQLResult[];
   affectedRows: number;
 }

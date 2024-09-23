@@ -32,11 +32,16 @@ public class ExecuteService {
             PreparedStatement pstmt = conn.prepareStatement(executeSqlDTO.getSql());
 
             if(sqlType == SqlType.SELECT) {
+                List<Map<String, String>> columnList = new ArrayList<>();
                 List<Map<String, String>> resultList = new ArrayList<>();
                 ResultSet resultSet = pstmt.executeQuery();
 
                 ResultSetMetaData metaData = resultSet.getMetaData();
                 int columnCount = metaData.getColumnCount();
+
+                for (int i = 1; i <= columnCount; i++) {
+                    columnList.add(Map.of(metaData.getColumnName(i), metaData.getColumnTypeName(i)));
+                }
 
                 while (resultSet.next()) {
                     Map<String, String> rowMap = new LinkedHashMap<>();
@@ -48,6 +53,7 @@ public class ExecuteService {
                     resultList.add(rowMap);
                 }
                 result.setType("Query");
+                result.setColumnList(columnList);
                 result.setResultList(resultList);
             } else {
                 int affectedRow = pstmt.executeUpdate();

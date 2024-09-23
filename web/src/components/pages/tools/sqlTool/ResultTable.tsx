@@ -24,12 +24,10 @@ const ResultTable: React.FC<Props> = ({ data }) => {
     setRowData([]);
     setColDefs([]);
 
-    if (
-      data &&
-      data.type == ExecuteSQLType.QUERY &&
-      data.resultList.length > 0
-    ) {
-      const keys = Object.keys(data.resultList[0]);
+    if (data && data.type == ExecuteSQLType.QUERY) {
+      const keys = data.columnList.map((cols) => {
+        return Object.keys(cols)[0];
+      });
 
       keys.map((key) =>
         setColDefs((prevItems) => [...prevItems, { field: key }])
@@ -41,18 +39,14 @@ const ResultTable: React.FC<Props> = ({ data }) => {
 
   return (
     <ResultTableContainer>
-      {rowData.length == 0 ? (
-        <></>
-      ) : (
-        <div style={{ width: "100%" }}>
-          <AgGridReact
-            theme={themeQuartz}
-            loadThemeGoogleFonts
-            rowData={rowData}
-            columnDefs={colDefs}
-          />
-        </div>
-      )}
+      <div style={{ width: "100%" }}>
+        <AgGridReact
+          theme={themeQuartz}
+          loadThemeGoogleFonts
+          rowData={rowData}
+          columnDefs={colDefs}
+        />
+      </div>
     </ResultTableContainer>
   );
 };

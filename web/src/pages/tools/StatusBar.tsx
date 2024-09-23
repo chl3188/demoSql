@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { IResConnection } from "../../apis/connection/connection.types";
 import {
   ExecuteSQLType,
   IResExecuteSQL,
-} from "../../../apis/execute/execute.types";
-import { IResConnection } from "../../../apis/connection/connection.types";
+} from "../../apis/execute/execute.types";
 
 interface Props {
   connInfo: IResConnection | null;

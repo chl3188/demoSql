@@ -16,7 +16,7 @@ const SqlEditor: React.FC<Props> = ({ onChange }) => {
       <Editor
         height="50vh"
         defaultLanguage="mysql"
-        defaultValue="select * from test.luji"
+        defaultValue=""
         onChange={handleEditorChange}
       />
     </SqlEditorContainer>

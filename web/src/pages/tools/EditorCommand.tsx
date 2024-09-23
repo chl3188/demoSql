@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CommonSubmitButton from "../common/button/CommonSubmitButton";
+import CommonSubmitButton from "../../components/basic/common/button/CommonSubmitButton";
 
 interface Props {
   onClickRun: () => void;

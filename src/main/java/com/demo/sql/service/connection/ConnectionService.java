@@ -26,7 +26,7 @@ public class ConnectionService {
         Set<String> keys = ConnectionPool.getAllKeys();
 
         if(keys.isEmpty()) {
-            return new ResponseBase(RES_OK_CODE, RES_OK_MSG, null);
+            return new ResponseBase(RES_OK_CODE, RES_OK_MSG, connections);
         }
 
         try{

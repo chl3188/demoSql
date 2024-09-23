@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import EditorTab from "./EditorTab";
-import EditorCommand from "./EditorCommand";
-import SqlEditor from "./SqlEditor";
 import {
   IReqExecuteSQL,
   IResExecuteSQL,
-} from "../../../apis/execute/execute.types";
+} from "../../apis/execute/execute.types";
 import {
   connectionInfo,
   setConnection,
-} from "../../../stores/slice/connectionStore";
-import { APIPostExecuteSQL } from "../../../apis/execute/execute";
+} from "../../stores/slice/connectionStore";
+import { APIPostExecuteSQL } from "../../apis/execute/execute";
+import { APIDeleteConnection } from "../../apis/connection/connection";
+import SqlToolPageTemplate from "../../components/pages/tools/sqlTool/SqlToolPageTemplate";
+import SqlEditor from "./SqlEditor";
+import EditorCommand from "./EditorCommand";
 import ResultTable from "./ResultTable";
 import StatusBar from "./StatusBar";
-import { APIDeleteConnection } from "../../../apis/connection/connection";
 
 interface Props {}
 
@@ -26,13 +26,12 @@ const SqlTool: React.FC<Props> = ({}) => {
   const connInfo = useSelector(connectionInfo);
   const [executeSQL, setExecuteSQL] = useState<IReqExecuteSQL>({
     connectionKey: "",
-    sql: "select * from test.luji;",
+    sql: "",
   });
   const [resultSet, setResultSet] = useState<IResExecuteSQL>();
 
   useEffect(() => {
     if (connInfo) {
-      console.log("connInfo", connInfo);
       setExecuteSQL((prevData) => ({
         ...prevData,
         connectionKey: connInfo.connectionKey!,
@@ -84,24 +83,18 @@ const SqlTool: React.FC<Props> = ({}) => {
 
   return (
     <SqlToolContainer>
-      <Content>
-        <EditorLayout>
-          <EditorTab />
-          <SqlEditor onChange={handleChangeSql} />
-          <EditorCommand onClickRun={handleClickRun} />
-        </EditorLayout>
-        <ResultLayout>
-          <ResultTable data={resultSet} />
-        </ResultLayout>
-      </Content>
-
-      <StatusLayout>
-        <StatusBar
-          connInfo={connInfo}
-          status={resultSet}
-          onClickDisConnect={handleClickDisconnect}
-        />
-      </StatusLayout>
+      <SqlToolPageTemplate
+        SqlEditor={<SqlEditor onChange={handleChangeSql} />}
+        EditorCommand={<EditorCommand onClickRun={handleClickRun} />}
+        ResultTable={<ResultTable data={resultSet} />}
+        StatusBar={
+          <StatusBar
+            connInfo={connInfo}
+            status={resultSet}
+            onClickDisConnect={handleClickDisconnect}
+          />
+        }
+      />
     </SqlToolContainer>
   );
 };
@@ -109,24 +102,3 @@ const SqlTool: React.FC<Props> = ({}) => {
 export default SqlTool;
 
 const SqlToolContainer = styled.div``;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: calc(100vh - 35px);
-`;
-
-const EditorLayout = styled.div`
-  height: 60%;
-`;
-
-const ResultLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`;
-
-const StatusLayout = styled.div`
-  height: 35px;
-`;

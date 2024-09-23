@@ -7,7 +7,7 @@ import {
   ExecuteSQLType,
   IResExecuteSQL,
   IResExecuteSQLResult,
-} from "../../../apis/execute/execute.types";
+} from "../../apis/execute/execute.types";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 

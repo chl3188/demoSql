@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import MainPage from "../../../pages/MainPage";
+import MainPage from "../../../pages/main/MainPage";
 import Connection from "../connection/Connection";
 
 const ComponentLoading: React.FC = () => {

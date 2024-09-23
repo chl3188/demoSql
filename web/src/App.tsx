@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -30,11 +30,11 @@ const App: React.FC = () => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <React.Suspense fallback={<Loading />}>
+          <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/*" element={<DefaultLayout />} />
             </Routes>
-          </React.Suspense>
+          </Suspense>
         </BrowserRouter>
       </QueryClientProvider>
     </Provider>

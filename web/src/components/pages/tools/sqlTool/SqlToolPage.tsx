@@ -5,16 +5,16 @@ import styled from "styled-components";
 import {
   IReqExecuteSQL,
   IResExecuteSQL,
-} from "../../apis/execute/execute.types";
+} from "../../../../apis/execute/execute.types";
 import {
   connectionInfo,
   setConnection,
-} from "../../stores/slice/connectionStore";
-import { APIPostExecuteSQL } from "../../apis/execute/execute";
-import { APIDeleteConnection } from "../../apis/connection/connection";
-import SqlToolPageTemplate from "../../components/pages/tools/sqlTool/SqlToolPageTemplate";
+} from "../../../../stores/slice/connectionStore";
+import { APIPostExecuteSQL } from "../../../../apis/execute/execute";
+import { APIDeleteConnection } from "../../../../apis/connection/connection";
+import SqlToolPageTemplate from "./SqlToolPageTemplate";
 import SqlEditor from "./SqlEditor";
-import EditorCommand from "./EditorCommand";
+import EditorCommand from "../../../../pages/tools/EditorCommand";
 import ResultTable from "./ResultTable";
 import StatusBar from "./StatusBar";
 

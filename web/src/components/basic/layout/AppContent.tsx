@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "../../../pages/main/MainPage";
-import Connection from "../connection/Connection";
+import ConnectionPage from "../../../pages/connection/ConnectionPage";
 
 const ComponentLoading: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const AppContent: React.FC = () => {
       <Suspense fallback={<ComponentLoading />}>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/connection" element={<Connection />} />
+          <Route path="/connection" element={<ConnectionPage />} />
         </Routes>
       </Suspense>
     </>

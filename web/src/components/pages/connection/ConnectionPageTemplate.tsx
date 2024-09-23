@@ -1,73 +1,28 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { setConnection } from "../../../stores/slice/connectionStore";
-import { APIPostConnection } from "../../../apis/connection/connection";
 import { IReqConnection } from "../../../apis/connection/connection.types";
-import CommonInput from "../common/input/CommonInput";
-import CommonCombo from "../common/combo/CommonCombo";
-import CommonSubmitButton from "../common/button/CommonSubmitButton";
+import CommonCombo from "../../basic/common/combo/CommonCombo";
+import CommonInput from "../../basic/common/input/CommonInput";
+import CommonSubmitButton from "../../basic/common/button/CommonSubmitButton";
+import { IDbTypeOptions } from "../../../pages/connection/ConnectionPage";
 
-interface Props {}
-
-export interface IDbTypeOptions {
-  label: string;
-  value: number;
+interface Props {
+  dbTypes: IDbTypeOptions[];
+  connectionInfo: IReqConnection;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  handleSubmit: () => void;
 }
 
-const Connection: React.FC<Props> = ({}) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const [connectionInfo, setConnectionInfo] = useState<IReqConnection>({
-    dbType: 2,
-    dbIp: "127.0.0.1",
-    dbPort: "3307",
-    dbUserId: "root",
-    dbUserPw: "wnfjdwnfjd",
-    dbSid: "",
-    dbName: "test",
-  });
-
-  const dbTypes: IDbTypeOptions[] = [
-    { label: "oracle", value: 1 },
-    { label: "mysql", value: 2 },
-  ];
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setConnectionInfo((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
-    if (
-      connectionInfo.dbIp == "" &&
-      connectionInfo.dbPort == "" &&
-      connectionInfo.dbName == "" &&
-      connectionInfo.dbUserId == "" &&
-      connectionInfo.dbUserPw == ""
-    ) {
-      alert("정보 입력하세요.");
-      return;
-    }
-
-    const result = await APIPostConnection(connectionInfo);
-    if (result.code == 200) {
-      dispatch(setConnection(result.data));
-      navigate("/");
-    } else {
-      alert(result.message);
-    }
-  };
-
+const ConnectionPageTemplate: React.FC<Props> = ({
+  dbTypes,
+  connectionInfo,
+  handleChange,
+  handleSubmit,
+}) => {
   return (
-    <ConnectionContainer>
+    <Container>
       <ConnectionLayout>
         <HeaderSection>
           <TitleText>New Connection</TitleText>
@@ -152,13 +107,13 @@ const Connection: React.FC<Props> = ({}) => {
           <CommonSubmitButton label="Connect" onClick={handleSubmit} />
         </ConnectSection>
       </ConnectionLayout>
-    </ConnectionContainer>
+    </Container>
   );
 };
 
-export default Connection;
+export default ConnectionPageTemplate;
 
-const ConnectionContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

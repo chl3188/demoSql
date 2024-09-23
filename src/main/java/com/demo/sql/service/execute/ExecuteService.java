@@ -30,6 +30,7 @@ public class ExecuteService {
 
             SqlType sqlType = SqlParser.getSqlType(executeSqlDTO.getSql());
             PreparedStatement pstmt = conn.prepareStatement(executeSqlDTO.getSql());
+
             if(sqlType == SqlType.SELECT) {
                 List<Map<String, String>> resultList = new ArrayList<>();
                 ResultSet resultSet = pstmt.executeQuery();

@@ -8,14 +8,21 @@ import java.util.UUID;
 
 public class ConnectionUtils {
 
+    /*
+        고유 Key 생성, UUID 8자리로 축약
+     */
     public static String genUUID() {
         String uuid = UUID.randomUUID().toString();
-        uuid = uuid.replaceAll("-", "");
-        uuid = uuid.substring(0, 8);
+        uuid = uuid.replaceAll("-", "")
+                .substring(0, 8);
         return uuid;
     }
 
-    public static ResConnectionDTO makeConnInfo (DatabaseMetaData meta, String key) throws SQLException {
+    /*
+        Connection 기본 정보 생성
+        DbType, ShortJdbcURL, Connection Key
+     */
+    public static ResConnectionDTO makeConnInfo(DatabaseMetaData meta, String key) throws SQLException {
         int dbType = 0;
         String shortUrl = "";
         String dbProductName = meta.getDatabaseProductName();

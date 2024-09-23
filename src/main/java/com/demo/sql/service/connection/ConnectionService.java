@@ -25,6 +25,10 @@ public class ConnectionService {
         List<ResConnectionDTO> connections = new ArrayList<>();
         Set<String> keys = ConnectionPool.getAllKeys();
 
+        if(keys.isEmpty()) {
+            return new ResponseBase(RES_OK_CODE, RES_OK_MSG, null);
+        }
+
         try{
             for (String key : keys) {
                 Connection conn = ConnectionPool.getConnection(key);
@@ -39,6 +43,7 @@ public class ConnectionService {
     }
 
     public ResponseBase createConnection(ReqConnectionDTO connectionDTO) {
+        // 고유 Key 생성
         String key = genUUID();
 
         try {
@@ -53,13 +58,11 @@ public class ConnectionService {
             return new ResponseBase(RES_FAIL_CREATE_CONNECTION_CODE, ce.getCause().toString());
         }
 
-        ResConnectionDTO resConnectionDTO = ResConnectionDTO.builder()
+        return new ResponseBase(RES_OK_CODE, RES_OK_MSG, ResConnectionDTO.builder()
                 .dbType(connectionDTO.getDbType())
                 .connectionKey(key)
                 .shortJdbcUrl(connectionDTO.getDbIp()+"/"+connectionDTO.getDbName())
-                .build();
-
-        return new ResponseBase(RES_OK_CODE, RES_OK_MSG, resConnectionDTO);
+                .build());
     }
 
     public ResponseBase deleteConnection(String key) {

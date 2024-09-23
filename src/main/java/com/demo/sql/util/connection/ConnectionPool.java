@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionPool {
 
+    // 생성된 Connection Pool Map
     private final static Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap<>();
 
     public static Connection getConnection(String key) {

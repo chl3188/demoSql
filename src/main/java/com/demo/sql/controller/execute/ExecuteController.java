@@ -3,8 +3,8 @@ package com.demo.sql.controller.execute;
 import com.demo.sql.dto.execute.ReqExecuteSqlDTO;
 import com.demo.sql.dto.common.ResponseBase;
 import com.demo.sql.service.execute.ExecuteService;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/execute")
 public class ExecuteController {
 
-    @Resource
+    @Autowired
     private ExecuteService executeService;
 
     /*

@@ -24,17 +24,22 @@ public abstract class AbstractDynamicJDBC {
     protected abstract String jdbcPath();
 
     protected AbstractDynamicJDBC() throws IOException, ReflectiveOperationException{
+        // Reflection API, JDBC Class
         Class<?> proto = null;
 
         if(!JDBC_DRIVER_MAP.contains(jdbcPath())) {
             JDBC_DRIVER_MAP.add(jdbcPath());
+            // jdbcPath를 기반으로 URL을 가져와 UrlClassLoader 생성
             classLoader = URLClassLoader.newInstance(new URL[] { new ClassPathResource(jdbcPath()).getURL() });
+            // UrlClassLoader의 loadClass를 driverClsName()통해 해당 클래스의 객체를 반환
             proto = classLoader.loadClass(driverClsName());
         } else {
             proto = classLoader.loadClass(driverClsName());
         }
 
+        // JDBC Driver 생성
         driver = proto.getDeclaredConstructor().newInstance();
+        // JDBC Driver connect 메소드 생성
         methodConnect = proto.getMethod("connect", String.class, Properties.class);
         methodConnect.setAccessible(true);
     }
@@ -49,6 +54,7 @@ public abstract class AbstractDynamicJDBC {
 
     public Connection connect(String jdbcUrl, Properties properties) {
         try {
+            // JDBC Driver Connect Method Invoke
             return (Connection) methodConnect.invoke(driver, jdbcUrl, properties);
         } catch (Exception e) {
             throw new CustomConnectionException(e.getMessage(), e.getCause());

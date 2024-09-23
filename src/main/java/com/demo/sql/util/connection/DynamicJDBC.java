@@ -19,7 +19,6 @@ public class DynamicJDBC {
 
         try {
             AbstractDynamicJDBC dynamicJDBC = AbstractDynamicJDBC.newInstance(connectionDTO.getDbType());
-
             Properties props = new Properties();
             props.setProperty("user", connectionDTO.getDbUserId());
             props.setProperty("password", connectionDTO.getDbUserPw());

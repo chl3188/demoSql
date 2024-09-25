@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import EditorTab from "./EditorTab";
+import EditorTab from "./editor/EditorTab";
 
 interface Props {
   SqlEditor: React.ReactElement;

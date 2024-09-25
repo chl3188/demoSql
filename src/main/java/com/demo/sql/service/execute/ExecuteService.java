@@ -25,6 +25,7 @@ public class ExecuteService {
             ResExecuteSqlDTO result = new ResExecuteSqlDTO();
 
             if(conn == null) {
+                ConnectionPool.removeConnection(executeSqlDTO.getConnectionKey());
                 return new ResponseBase(RES_FAIL_CONNECTION_INVALID_CODE, RES_FAIL_CONNECTION_INVALID_MSG);
             }
 
@@ -38,7 +39,6 @@ public class ExecuteService {
 
                 ResultSetMetaData metaData = resultSet.getMetaData();
                 int columnCount = metaData.getColumnCount();
-
                 for (int i = 1; i <= columnCount; i++) {
                     columnList.add(Map.of(metaData.getColumnName(i), metaData.getColumnTypeName(i)));
                 }
@@ -52,6 +52,7 @@ public class ExecuteService {
                     }
                     resultList.add(rowMap);
                 }
+
                 result.setType("Query");
                 result.setColumnList(columnList);
                 result.setResultList(resultList);

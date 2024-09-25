@@ -16,7 +16,7 @@ import static com.demo.sql.util.connection.ConstDbType.DB_TYPE_ORACLE;
 
 public abstract class AbstractDynamicJDBC {
 
-    protected final static Set<String> JDBC_DRIVER_MAP = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+    protected final static Set<String> JDBC_DRIVER = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
     private static URLClassLoader classLoader;
     protected final Method methodConnect;
     protected final Object driver;
@@ -27,8 +27,8 @@ public abstract class AbstractDynamicJDBC {
         // Reflection API, JDBC Class
         Class<?> proto = null;
 
-        if(!JDBC_DRIVER_MAP.contains(jdbcPath())) {
-            JDBC_DRIVER_MAP.add(jdbcPath());
+        if(!JDBC_DRIVER.contains(jdbcPath())) {
+            JDBC_DRIVER.add(jdbcPath());
             // jdbcPath를 기반으로 URL을 가져와 UrlClassLoader 생성
             classLoader = URLClassLoader.newInstance(new URL[] { new ClassPathResource(jdbcPath()).getURL() });
             // UrlClassLoader의 loadClass를 driverClsName()통해 해당 클래스의 객체를 반환

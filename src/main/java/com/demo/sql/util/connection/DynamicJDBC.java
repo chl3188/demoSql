@@ -14,6 +14,10 @@ import static com.demo.sql.util.connection.ConstDbType.DB_TYPE_ORACLE;
 
 public class DynamicJDBC {
 
+    /*
+        Connection 생성 함수
+        Connection 생성하기 위한 기본 JDBC URL String, Properties 설정
+     */
     public static Connection createConnection(ReqConnectionDTO connectionDTO) {
         String jdbcUrl = "";
 

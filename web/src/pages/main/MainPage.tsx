@@ -1,5 +1,5 @@
 import React from "react";
-import SqlToolPage from "../../components/pages/tools/sqlTool/SqlToolPage";
+import SqlToolPage from "../tools/SqlToolPage";
 import MainPageTemplate from "../../components/pages/main/MainPageTemplate";
 
 const MainPage: React.FC = () => {

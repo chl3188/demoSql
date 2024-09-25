@@ -7,14 +7,13 @@ import {
   ExecuteSQLType,
   IResExecuteSQL,
   IResExecuteSQLResult,
-} from "../../../../apis/execute/execute.types";
+} from "../../../../../apis/execute/execute.types";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
 interface Props {
   data: IResExecuteSQL | undefined;
 }
-
 const ResultTable: React.FC<Props> = ({ data }) => {
   const [rowData, setRowData] = useState<IResExecuteSQLResult[]>([]);
 
@@ -42,7 +41,6 @@ const ResultTable: React.FC<Props> = ({ data }) => {
       <div style={{ width: "100%" }}>
         <AgGridReact
           theme={themeQuartz}
-          loadThemeGoogleFonts
           rowData={rowData}
           columnDefs={colDefs}
         />
